@@ -3,62 +3,55 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tin;
 
 class QTinController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tin = Tin::all();
+        return view('tin.danhsach', compact('tin'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('tin.them');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $tin = new Tin;
+        $tin->tieuDe = $request->tieuDe;
+        $tin->tomTat = $request->tomTat;
+        $tin->urlHinh = $request->urlHinh;
+        $tin->idLT = $request->idLT;
+        $tin->save();
+
+        return redirect('/tin');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $tin = Tin::find($id);
+        return view('tin.capnhattin', compact('tin'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $tin = Tin::find($id);
+        $tin->tieuDe = $request->tieuDe;
+        $tin->tomTat = $request->tomTat;
+        $tin->urlHinh = $request->urlHinh;
+        $tin->idLT = $request->idLT;
+        $tin->save();
+
+        return redirect('/tin');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $tin = Tin::find($id);
+        $tin->delete();
+        return redirect('/tin');
     }
 }
